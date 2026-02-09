@@ -1,5 +1,4 @@
 package frc.robot;
-
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -12,17 +11,47 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import frc.robot.generated.TunerConstants;
 
-public class Constants {
-/* -------------- DRIVETRAIN CONSTANTS -------------- */
+/* 
+ * To access numbers in this file, import or statically import one of its subclasses:
+ * example:
+ * import static frc.robot.Constants.ControllerPorts.*;
+ * import frc.robot.Constants.DriveConstants;
+ */
+public final class Constants {
+
+    /* -------------- IDs -------------- */
+
+    /** Ports used by controllers. */
+    public static final class ControllerPorts {
+        public static final int DRIVER_PORT = 0;
+        public static final int OPERATOR_PORT = 1;
+    }
+
+    /* -------------- SUBSYTEM CONSTANTS -------------- */
+
+    public static final class ClimberConstants {
+        public enum ClimberPosition {
+            //climber setpoints
+            zero(0),
+            stow(16.4),
+            climb(-41.4);
+
+            private double setpoint;
+            ClimberPosition(double setpoint) {
+                this.setpoint = setpoint;
+            };
+
+            //gets the angle of setpoint
+            public double getAngle() {
+                return setpoint;
+            }
+        }
+    }
+    
+    /* -------------- DRIVETRAIN CONSTANTS -------------- */
 
     public static final class DriveConstants {
-        /** Translation instructions closer to 0 than the deadband will be set to 0 */
-        public static final double TRANSLATION_DEADBAND = .05;
-        /** Rotation instructions closer to 0 than the deadband will be set to 0 */
-        public static final double ROTATION_DEADBAND = .05;
-
         /** Higher values make the robot drive more aggressively */
         public static final double TRANSLATION_SLEW = 4;
         /** Higher values make the robot spin more aggressively */
@@ -32,6 +61,11 @@ public class Constants {
         public static final double MAX_TRANSLATION_SPEED = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
         /** The maximum allowed spinning speed of the robot */
         public static final double MAX_ROTATION_SPEED = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
+        
+        /** Translation instructions closer to 0 than the deadband will be set to 0 */
+        public static final double TRANSLATION_DEADBAND = .07 * MAX_TRANSLATION_SPEED;
+        /** Rotation instructions closer to 0 than the deadband will be set to 0 */
+        public static final double ROTATION_DEADBAND = .1 * MAX_ROTATION_SPEED;
     }
 
     public static final class PathPlannerConfigs {
@@ -42,12 +76,12 @@ public class Constants {
             new ModuleConfig(
                 SwerveConstants.ModuleConstants.WHEEL_DIAMETER / 2, 
                 DriveConstants.MAX_TRANSLATION_SPEED, 
-                1, DRIVE_MOTOR, 60, 1
+                1, DRIVE_MOTOR, 20, 1
             );
 
         public static final RobotConfig PP_CONFIG = 
             new RobotConfig(
-                40, 4, 
+                45, 3.5, 
                 MODULE_CONFIG, 
                 SwerveConstants.MODULE_TRANSLATIONS
             );
@@ -58,9 +92,9 @@ public class Constants {
      *  but is kept for documentation purposes, and niche cases like PathPlanner configuration. */
     public static final class SwerveConstants {
         /** The distance between the left and right wheels in inches */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(23);
+        public static final double TRACK_WIDTH = Units.inchesToMeters(22);
         /** The distance between the front and rear wheels in inches */
-        public static final double WHEEL_BASE = Units.inchesToMeters(23);
+        public static final double WHEEL_BASE = Units.inchesToMeters(27);
 
         /** An array containing the position of each module as a {@link Translation2d} object */
         public static final Translation2d[] MODULE_TRANSLATIONS = {
@@ -104,5 +138,5 @@ public class Constants {
             REAR_RIGHT
         }
     }
-   
 }
+

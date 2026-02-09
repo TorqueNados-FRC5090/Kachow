@@ -3,8 +3,8 @@ package frc.robot.wrappers;
 // Imports
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase;
 
@@ -134,7 +134,7 @@ public class GenericPID {
     public void activate(double setpoint) {
         updatePID();
         setSetpoint(setpoint);
-        controller.setSetpoint(this.setpoint, this.controlType);
+        controller.setReference(this.setpoint, this.controlType);
     }
     /** Alias for activate. Starts the PID controller using last known setpoint */
     public void start() { activate(); }

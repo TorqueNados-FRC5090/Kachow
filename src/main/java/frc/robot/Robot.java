@@ -1,91 +1,72 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import com.ctre.phoenix6.HootAutoReplay;
+// Camera imports
 import edu.wpi.first.cameraserver.CameraServer;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+// Command imports
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+// Misc imports
+import edu.wpi.first.wpilibj.TimedRobot;
+
+
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
+    private RobotContainer robotContainer;
 
-    private final RobotContainer m_robotContainer;
+    // Commands
+    private Command autonCommand;
 
-    /* log and replay timestamp and joystick data */
-    private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
-        .withTimestampReplay()
-        .withJoystickReplay();
-
+    // This function is run when the robot is first started up and should be used
+    // for any initialization code.
     @Override
-    public void robotInit(){
+    public void robotInit() {
+        // Start the camera feed
         CameraServer.startAutomaticCapture();
 
-    }
-    public Robot() {
-        m_robotContainer = new RobotContainer();
-    }
-
-    @Override
-    public void robotPeriodic() {
-        m_timeAndJoystickReplay.update();
-        CommandScheduler.getInstance().run(); 
+        // Construct the robot container
+        robotContainer = new RobotContainer();
     }
 
-    //@Override
-    //public void disabledInit() {}
-
-    @Override
-    public void disabledPeriodic() {}
-
-    @Override
-    public void disabledExit() {}
-
+    // This function is called once at the start of auton
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(m_autonomousCommand);
-            //autonCommand.schedule();
-        }
+        // Get the command to be used in auton
+        autonCommand = robotContainer.getAutonomousCommand();
+        // Schedule the command if there is one
+        if (autonCommand != null)
+            autonCommand.schedule();
     }
 
+    // This function is called every 20ms during auton
     @Override
     public void autonomousPeriodic() {}
-
-    @Override
-    public void autonomousExit() {}
-
+    
+    // This function is called once at the start of teleop
     @Override
     public void teleopInit() {
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().cancel(m_autonomousCommand);
-            //autonCommand.cancel();
-        }
+        // This makes sure that the autonomous command stops when teleop starts
+        if (autonCommand != null)
+            autonCommand.cancel();
     }
 
+    // This function is called every 20ms during teleop
     @Override
     public void teleopPeriodic() {}
 
+    // This function is called every 20ms while the robot is enabled
     @Override
-    public void teleopExit() {}
+    public void robotPeriodic() {    
+        // Run any functions that always need to be running
+        CommandScheduler.getInstance().run();
+    }
 
     @Override
     public void testInit() {
-        CommandScheduler.getInstance().cancelAll();
+      // Kill any active commands when entering test mode
+      CommandScheduler.getInstance().cancelAll();
     }
 
     @Override
     public void testPeriodic() {}
-
-    @Override
-    public void testExit() {}
-
-    @Override
-    public void simulationPeriodic() {}
 }
