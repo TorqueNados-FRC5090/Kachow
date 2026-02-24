@@ -108,8 +108,8 @@ public class Constants {
     public static final class ShooterConstants{
         public enum ShooterPosition{
             zero(0),
-            middle(-2.5),
-            far(-4.2);
+            middle(-2),
+            far(-3.04);
 
             private double setpoint;
             ShooterPosition(double setpoint){

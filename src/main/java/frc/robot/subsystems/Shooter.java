@@ -21,9 +21,9 @@ public class Shooter extends SubsystemBase {
   TalonFX followShoot;
   ShooterPosition pos = ShooterPosition.zero;
     public Shooter(){
-        hood = new TalonFX(37);
-        leadShoot = new TalonFX(27);
-        followShoot = new TalonFX(0);
+        hood = new TalonFX(20, "rio");
+        leadShoot = new TalonFX(27, "rio");
+        followShoot = new TalonFX(15,"rio");
     
 
         TalonFXConfiguration hoodConfig = new TalonFXConfiguration();
@@ -32,11 +32,14 @@ public class Shooter extends SubsystemBase {
         
 
         Slot0Configs PIDconfig = new Slot0Configs();
-        PIDconfig.kP = 1;
+        PIDconfig.kP = .5;
         hood.getConfigurator().apply(PIDconfig);
+        leadShoot.getConfigurator().apply(PIDconfig);
+        followShoot.getConfigurator().apply(PIDconfig);
 
-        TalonFXConfiguration shootConfig = new TalonFXConfiguration();
+        
         followShoot.setControl(new Follower(27, MotorAlignmentValue.Opposed));
+        
 
 
     }
@@ -58,8 +61,8 @@ public class Shooter extends SubsystemBase {
         hood.setControl(hoodRequest);
     }
     //shoots
-    public void shoot(){
-        VelocityVoltage velocityRequest = new VelocityVoltage(3000);
+    public void goShoot(){
+        VelocityVoltage velocityRequest = new VelocityVoltage(200).withSlot(0);
         leadShoot.setControl(velocityRequest);
     }
     //gets angle of target (NOT HOOD ANGEL)
@@ -80,6 +83,7 @@ public class Shooter extends SubsystemBase {
     public void periodic(){
         SmartDashboard.putNumber("Hood Angle", hood.getPosition().getValueAsDouble());
         SmartDashboard.putNumber("Target Angle", pos.getAngle());
+        SmartDashboard.putNumber("Velocity", leadShoot.getVelocity().getValueAsDouble());
     }
 
 

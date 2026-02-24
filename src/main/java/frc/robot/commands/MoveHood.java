@@ -32,5 +32,6 @@ public class MoveHood extends Command {
     @Override
     public boolean isFinished(){
       return shoot.atSetpoint();
+      
     }
 }

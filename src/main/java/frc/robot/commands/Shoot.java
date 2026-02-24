@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command {
-    Shooter shoot;
+    Shooter shooter;
     
-    public Shoot(Shooter shoot){
-        this.shoot = shoot;
+    public Shoot(Shooter shooter){
+        this.shooter = shooter;
     }
   
     @Override
@@ -17,12 +17,12 @@ public class Shoot extends Command {
 
     @Override
     public void execute(){
-        shoot.shoot();
+        shooter.goShoot();
     }
 
-    @Override 
+   @Override 
     public void end(boolean interrupted){
-
+   shooter.stop();
     }
 
     @Override
