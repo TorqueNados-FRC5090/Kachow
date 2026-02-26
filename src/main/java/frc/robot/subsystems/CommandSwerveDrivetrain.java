@@ -270,6 +270,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
+ 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the odometry pose estimate
      * while still accounting for measurement noise.
@@ -302,16 +303,5 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionMeasurementStdDevs
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
-    }
-
-    /**
-     * Return the pose at a given timestamp, if the buffer is not empty.
-     *
-     * @param timestampSeconds The timestamp of the pose in seconds.
-     * @return The pose at the given timestamp (or Optional.empty() if the buffer is empty).
-     */
-    @Override
-    public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
-        return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
     }
 }
