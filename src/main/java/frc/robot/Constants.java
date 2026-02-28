@@ -48,6 +48,24 @@ public final class Constants {
             }
         }
     }
+    // INTAKE CONSTANTS YIPPPIEEEEE!!!
+     public static final class IntakeConstants {
+        public enum IntakePosition {
+            //climber setpoints
+            zero(0),
+            out(7.08);
+
+            private double setpoint;
+            IntakePosition(double setpoint) {
+                this.setpoint = setpoint;
+            };
+
+            //gets the angle of setpoint
+            public double getAngle() {
+                return setpoint;
+            }
+        }
+    }
     
     /* -------------- DRIVETRAIN CONSTANTS -------------- */
 
@@ -136,6 +154,34 @@ public final class Constants {
             FRONT_RIGHT,
             REAR_LEFT,
             REAR_RIGHT
+        }
+    }
+
+     public static final class LEDConstants {
+        public static enum LEDColor {
+            RED(255, 0, 0),
+            GREEN(25, 255, 0),
+            BLUE(0, 10, 181),
+            YELLOW(255, 100, 0),
+            PURPLE(162, 18, 184),
+            PINK(255, 166, 238),
+            LIGHT_BLUE(125, 212, 255),
+            ORANGE(180, 20, 0),
+            WHITE(255, 255, 255);
+
+            private int red;
+            private int green;
+            private int blue;
+             
+            LEDColor(int red, int green, int blue) {
+                this.red = red;
+                this.green = green;
+                this.blue = blue;
+            }
+
+            public int getRed() { return red; }
+            public int getGreen() { return green; }
+            public int getBlue() { return blue; }
         }
     }
 }
