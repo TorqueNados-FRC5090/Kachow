@@ -1,36 +1,36 @@
-
     package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.IntakeConstants.IntakePosition;
 import frc.robot.wrappers.GenericPID;
 import frc.robot.wrappers.LimitSwitch;
 
 public class Intake extends SubsystemBase{
-    private TalonFX intakeMotor;
-    private TalonFX rotationMotor;
-    private GenericPID rotationPID;
-    private LimitSwitch limitSwitch;
+     TalonFX intakeMotor;
+     TalonFX rotationMotor;
+     IntakePosition himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme;
 
     /** Constructs an Intake
      *  @param intakeID The ID of the intake motor
      *  @param rotateID The ID of the rotate motor
-     *  @param limPort  Limelight port
      */
-    public Intake(int intakeID, int rotateID, int limPort){
-        intakeMotor = new TalonFX(intakeID);        
-        rotationMotor = new TalonFX(rotateID);
+    public Intake(int intakeID, int rotateID){
+        intakeMotor = new TalonFX(11);        
+        rotationMotor = new TalonFX(12);
         Slot0Configs intakePIDConfig = new Slot0Configs();
         intakePIDConfig.kP = 0.4;
         intakePIDConfig.kD = .007;
-        limitSwitch = new LimitSwitch(limPort);
-        limitSwitch.setInverted(true);
-    }
+        rotationMotor.getConfigurator().apply(intakePIDConfig);
+        intakeMotor.getConfigurator().apply(intakePIDConfig);
+     }
     
     // Go-go Gadget Move (Makes the Intake Move)
     public void yummy(){
@@ -38,8 +38,10 @@ public class Intake extends SubsystemBase{
     }
     
     // Go-go Gadget Rotate (Makes Intake Rotate)
-    public void rotate(){
-        rotationMotor.set(.25);
+    public void rotate(IntakePosition himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme){
+        this.himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme = himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme;
+        PositionVoltage rotationRequest = new PositionVoltage(himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme.getAngle()).withSlot(0);
+        rotationMotor.setControl(rotationRequest);
     }
 
     // Go-go Gadget Stop (Stops the Intake)
@@ -52,11 +54,21 @@ public class Intake extends SubsystemBase{
         rotationMotor.set(0);
     }
 
+    public double getAngle(){
+        return rotationMotor.getPosition().getValueAsDouble();
+    }
+
+    public boolean setpointCheck(){
+        return Math.abs(getAngle() - himadisoniloveyouyouresosometingomggggggthewayyouhopdickissofuckingmajestictheplacementofyouroutwardsarmsisbeautifulthankyouforhoppingdickwithme.getAngle()) <= .5;
+    }
     
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Intake Position Degrees", rotationPID.getMeasurement());
+        SmartDashboard.putNumber("Intake Position Degrees", rotationMotor.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("pussy in my dih", intakeMotor.getPosition().getValueAsDouble());
     }
+
+    
 }
 
 
