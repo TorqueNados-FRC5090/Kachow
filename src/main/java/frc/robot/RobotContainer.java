@@ -27,7 +27,7 @@ import frc.robot.subsystems.CTRESwerveDrivetrain;
 //import frc.robot.subsystems.Candle;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.mtr;
+import frc.robot.subsystems.Turret;
 
 public class RobotContainer {
     public static final String candleID = null;
@@ -45,7 +45,7 @@ public class RobotContainer {
         public final CTRESwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
         public final Shooter shoot = new Shooter(10, 11);
         private final Climber climber = new Climber(12, .27);
-        private final mtr cadynhatesmypenisfrownyface = new mtr();
+        private final Turret turret = new Turret();
         private final Intake intake = new Intake(11, 12 );
         //public final Candle candleLEDS = new Candle(2 );
     // Misc objects
@@ -83,8 +83,8 @@ public class RobotContainer {
         //driverController.b().whileTrue(drivetrain.applyRequest(() ->
       //      point.withModuleDirection(new Rotation2d(-driverController.getLeftY(), -driverController.getLeftX()))
       //  ));
-        driverController.x().whileTrue(new turretmeimei(cadynhatesmypenisfrownyface, 1));
-        driverController.y().whileTrue(new turretmeimei(cadynhatesmypenisfrownyface, -2));
+        driverController.x().whileTrue(new TurretPosition(turret, 1));
+        driverController.y().whileTrue(new TurretPosition(turret, -2));
          driverController.a().whileTrue(new IntakePiece(intake, IntakePosition.out));
         driverController.b().whileTrue(new IntakePiece(intake, IntakePosition.zero));
       //  driverController.y().whileTrue(new turretpewww(cadynhatesmypenisfrownyface, .1));
