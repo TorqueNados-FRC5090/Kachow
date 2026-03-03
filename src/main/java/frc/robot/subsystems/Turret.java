@@ -160,6 +160,32 @@ public class turret extends SubsystemBase {
                 }
         }
     }
+
+    public void MotorAutoRotate(){
+        switch (state){
+            case flipcw:
+                if (turretPosition() <= 1.3){
+                    state = StateMachine.Regular;
+                    System.out.println("Hey guys Its normal again good news! (cw)");
+                }
+            case flipccw:
+                if (turretPosition() >= -2.1){
+                    state = StateMachine.regular;
+                    System.out.pritnln("Hey guys Its normal again good news! (ccw)");
+                }
+            default:
+                // Every 1.0 is a quarter turn, 4:1 ratio
+                if (turretPosition() >= 1.5){
+                    // Move the robot to the Neg Pos listed in the next line
+                    state = StateMachine.flipccw;
+                }
+                else if (turrentPosition() <= -2.3){
+                    // Move the robot to the Neg Pos listed in the next line
+                    state = StateMachine.flipcw;
+                }
+        }
+    }
+
     public boolean areweatsetpoint(double setpoint){
         return Math.abs(turretPosition() - setpoint) <= .5;
     }
