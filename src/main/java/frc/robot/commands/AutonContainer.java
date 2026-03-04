@@ -38,9 +38,9 @@ public class AutonContainer{
         // Fallback onto the config in Constants because it's better than crashing
         RobotConfig config = PP_CONFIG;
         try { config = RobotConfig.fromGUISettings(); }
-        catch (Exception e) { e.printStackTrace(); }
+        catch (Exception e) { e.printStackTrace();} }
 
-        AutoBuilder.configure(
+/*        AutoBuilder.configure(
             drivetrain::getPose, 
             drivetrain::resetPose,
             drivetrain::getChassisSpeeds,
@@ -53,7 +53,8 @@ public class AutonContainer{
             () -> robot.onRedAlliance(),
             drivetrain
         );
-    }
+    }   */
+
 /* 
     private void registerNamedCommands() {
         NamedCommands.registerCommand("ElevatorToL4", 

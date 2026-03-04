@@ -15,6 +15,9 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
 
 public class Constants {
+
+        public static final String CANIVORE = "jarvis";
+    public static final String RIO = "rio";
 /* -------------- DRIVETRAIN CONSTANTS -------------- */
 
     public static final class DriveConstants {
