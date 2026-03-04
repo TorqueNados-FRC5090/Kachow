@@ -19,6 +19,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
+// --- NEW IMPORTS FOR TURRET ---
+import java.io.IOException;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import frc.robot.subsystems.Turret; 
+// ------------------------------
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -39,12 +46,27 @@ public class RobotContainer {
 
     private final CommandXboxController joystick = new CommandXboxController(0);
 
+    // This is the line that replaces the "..." dots! Your team is using TunerConstants.
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    // --- NEW TURRET VARIABLES ---
+    private AprilTagFieldLayout m_fieldLayout;
+    public final Turret m_turret;
+    // ----------------------------
 
     private final AutonContainer auton = new AutonContainer(this);
     private final SendableChooser<Command> autonChooser = auton.buildAutonChooser();
 
     public RobotContainer() {
+
+        // NOTE: Make sure this is the right game year for whatever field you are testing on! 
+        m_fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+
+        // --- NEW: INSTANTIATE TURRET ---
+        // Passing in your "drivetrain" variable's Pose2d, and the layout we just loaded
+        m_turret = new Turret(() -> drivetrain.getState().Pose, m_fieldLayout);
+
+
         SmartDashboard.putData("Auton Selector", autonChooser);
         configureBindings();
     }
@@ -88,30 +110,19 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
+        // --- NEW: BIND TURRET AIM TO RIGHT BUMPER ---
+        // While the driver holds the Right Bumper, the Turret will continuously calculate and track the hub
+        joystick.rightBumper().whileTrue(
+            m_turret.run(() -> m_turret.alignToHub())
+        );
+        // --------------------------------------------
+
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
 
         return autonChooser.getSelected();
-        // Simple drive forward auton
-        //final var idle = new SwerveRequest.Idle();
-        //return Commands.sequence(
-            // Reset our field centric heading to match the robot
-            // facing away from our alliance station wall (0 deg).
-           // drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-            // Then slowly drive forward (away from us) for 5 seconds.
-            
-            /* 
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
-                    .withVelocityY(0)
-                    .withRotationalRate(0)
-            )
-            .withTimeout(5.0),
-            // Finally idle for the rest of auton
-            drivetrain.applyRequest(() -> idle) 
-            */
-        //);
+        
     }
 }
