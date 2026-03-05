@@ -104,5 +104,7 @@ public class Constants {
             REAR_RIGHT
         }
     }
+
+    public static final String RIO = "rio";
    
 }
