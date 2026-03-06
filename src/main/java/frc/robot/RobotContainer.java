@@ -47,6 +47,7 @@ public class RobotContainer {
         private final Climber climber = new Climber(12, .27);
         private final Turret turret = new Turret();
         private final Intake intake = new Intake(11, 12 );
+        private final spindex = new Spindex();
         //public final Candle candleLEDS = new Candle(2 );
     // Misc objects
     private final AutonContainer auton = new AutonContainer(this);
@@ -85,10 +86,10 @@ public class RobotContainer {
       //  ));
         driverController.x().whileTrue(new TurretPosition(turret, 1));
         driverController.y().whileTrue(new TurretPosition(turret, -2));
-         driverController.a().whileTrue(new IntakePiece(intake, IntakePosition.out));
+        //driverController.a().whileTrue(new IntakePiece(intake, IntakePosition.out));
+        driverController.a().whileTrue(new SpindexYappy(spindex));
         driverController.b().whileTrue(new IntakePiece(intake, IntakePosition.zero));
-      //  driverController.y().whileTrue(new turretpewww(cadynhatesmypenisfrownyface, .1));
-
+        
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         driverController.back().and(driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
@@ -116,3 +117,4 @@ public class RobotContainer {
         return autonChooser.getSelected();
     }
 }
+
