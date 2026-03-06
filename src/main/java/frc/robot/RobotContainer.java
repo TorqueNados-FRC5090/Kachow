@@ -28,7 +28,7 @@ import frc.robot.subsystems.Turret;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-
+import frc.robot.subsystems.Limelight;
 import frc.robot.commands.AutonContainer; 
 
 public class RobotContainer {
@@ -45,6 +45,8 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
+
+    public final Limelight m_ll = new Limelight();
 
     // This is the line that replaces the "..." dots! Your team is using TunerConstants.
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
